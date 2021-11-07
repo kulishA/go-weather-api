@@ -10,12 +10,12 @@ import (
 func (h *Handler) SingUp(c *gin.Context) {
 	var input domains.User
 
-	if err := c.BindJSON(&input); err != nil{
+	if err := c.BindJSON(&input); err != nil {
 		helper.NewErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	id, err := h.Services.Authorization.CreateUser(input)
+	id, err := h.services.Authorization.CreateUser(input)
 
 	if err != nil {
 		helper.NewErrorResponse(c, http.StatusInternalServerError, err.Error())
@@ -27,4 +27,27 @@ func (h *Handler) SingUp(c *gin.Context) {
 	})
 }
 
-func (h *Handler) SingIn(c *gin.Context) {}
+type singInInput struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+func (h *Handler) SingIn(c *gin.Context) {
+	var input singInInput
+
+	if err := c.BindJSON(&input); err != nil {
+		helper.NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	token, err := h.services.Authorization.GenerateToken(input.Username, input.Password)
+
+	if err != nil {
+		helper.NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"token": token,
+	})
+}

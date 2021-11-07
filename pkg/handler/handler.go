@@ -6,12 +6,12 @@ import (
 )
 
 type Handler struct {
-	Services *service.Service
+	services *service.Service
 }
 
 func NewHandler(services *service.Service) *Handler {
 	return &Handler{
-		Services: services,
+		services: services,
 	}
 }
 
