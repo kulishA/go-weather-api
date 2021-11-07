@@ -1,12 +1,18 @@
 package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/kulishA/go-weather-api/pkg/service"
+)
 
 type Handler struct {
+	Services *service.Service
 }
 
-func NewHandler() *Handler {
-	return &Handler{}
+func NewHandler(services *service.Service) *Handler {
+	return &Handler{
+		Services: services,
+	}
 }
 
 func (h *Handler) InitRoutes() *gin.Engine {

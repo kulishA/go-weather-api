@@ -5,6 +5,7 @@ import (
 	weatherapi "github.com/kulishA/go-weather-api"
 	"github.com/kulishA/go-weather-api/pkg/handler"
 	"github.com/kulishA/go-weather-api/pkg/repository"
+	"github.com/kulishA/go-weather-api/pkg/service"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -22,7 +23,7 @@ func main() {
 		logrus.Fatalf("errror loading env variables: %s", err.Error())
 	}
 
-	_, err := repository.NewPostgresDB(repository.Config{
+	db, err := repository.NewPostgresDB(repository.Config{
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		Username: viper.GetString("db.username"),
@@ -35,7 +36,9 @@ func main() {
 		logrus.Fatalf("failded to initialize DB: %s", err.Error())
 	}
 
-	handlers := handler.NewHandler()
+	repos := repository.NewRepository(db)
+	services := service.NewService(repos)
+	handlers := handler.NewHandler(services)
 
 	srv := new(weatherapi.Server)
 	if err := srv.Run("8080", handlers.InitRoutes()); err != nil {
