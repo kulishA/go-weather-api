@@ -2,13 +2,13 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/kulishA/go-weather-api/domains"
+	"github.com/kulishA/go-weather-api/domain"
 	"github.com/kulishA/go-weather-api/helper"
 	"net/http"
 )
 
 func (h *Handler) SingUp(c *gin.Context) {
-	var input domains.User
+	var input domain.User
 
 	if err := c.BindJSON(&input); err != nil {
 		helper.NewErrorResponse(c, http.StatusBadRequest, err.Error())

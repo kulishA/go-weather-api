@@ -4,7 +4,7 @@ import (
 	"crypto/sha1"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/kulishA/go-weather-api/domains"
+	"github.com/kulishA/go-weather-api/domain"
 	"github.com/kulishA/go-weather-api/pkg/repository"
 	"time"
 )
@@ -23,7 +23,7 @@ func NewAuthService(repo repository.Authorization) *AuthService {
 	return &AuthService{repo: repo}
 }
 
-func (s *AuthService) CreateUser(user domains.User) (int, error) {
+func (s *AuthService) CreateUser(user domain.User) (int, error) {
 	user.Password = generatePassword(user.Password)
 
 	return s.repo.CreateUser(user)

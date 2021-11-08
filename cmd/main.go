@@ -1,35 +1,27 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
-	weatherapi "github.com/kulishA/go-weather-api"
+	"github.com/kulishA/go-weather-api/pkg/config"
 	"github.com/kulishA/go-weather-api/pkg/handler"
 	"github.com/kulishA/go-weather-api/pkg/repository"
+	"github.com/kulishA/go-weather-api/pkg/server"
 	"github.com/kulishA/go-weather-api/pkg/service"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
-	"os"
 )
 
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 
-	if err := initConfig(); err != nil {
-		logrus.Fatalf("errror initializing configs: %s", err.Error())
-	}
-
-	if err := godotenv.Load(); err != nil {
-		logrus.Fatalf("errror loading env variables: %s", err.Error())
-	}
+	configs := config.NewConfig()
 
 	db, err := repository.NewPostgresDB(repository.Config{
-		Host:     viper.GetString("db.host"),
-		Port:     viper.GetString("db.port"),
-		Username: viper.GetString("db.username"),
-		Password: os.Getenv("POSTGRES_PASSWORD"),
-		DBName:   viper.GetString("db.dbname"),
-		SSLMode:  viper.GetString("db.sslmode"),
+		Host:     configs.DBHost,
+		Port:     configs.DBPort,
+		Username: configs.DBUser,
+		Password: configs.DBPassword,
+		DBName:   configs.DBName,
+		SSLMode:  configs.DBSSLMode,
 	})
 
 	if err != nil {
@@ -40,15 +32,8 @@ func main() {
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
 
-	srv := new(weatherapi.Server)
-	if err := srv.Run("8080", handlers.InitRoutes()); err != nil {
+	srv := new(server.Server)
+	if err := srv.Run(configs.ServerPort, handlers.InitRoutes()); err != nil {
 		logrus.Fatalf("error occurred while running http server: %s", err.Error())
 	}
-}
-
-func initConfig() error {
-	viper.AddConfigPath("configs")
-	viper.SetConfigName("config")
-
-	return viper.ReadInConfig()
 }
