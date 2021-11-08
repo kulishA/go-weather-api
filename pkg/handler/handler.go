@@ -24,5 +24,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("sing-in", h.SingIn)
 	}
 
+	api := router.Group("/api", h.userIdentity)
+	{
+		weather := api.Group("/weather")
+		{
+			weather.GET("/current", h.CurrentWeather)
+		}
+	}
+
 	return router
 }
