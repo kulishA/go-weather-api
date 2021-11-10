@@ -12,8 +12,8 @@ type Authorization interface {
 }
 
 type Weather interface {
-	Get(user domain.User, location string) (domain.Weather, error)
-	Save(user domain.User, weather domain.Weather) error
+	Get(userId int, location string) (domain.Weather, error)
+	Save(userId int, weather domain.Weather) error
 }
 
 type Service struct {
@@ -24,5 +24,6 @@ type Service struct {
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
+		Weather:       NewWeatherService(repos.Weather),
 	}
 }

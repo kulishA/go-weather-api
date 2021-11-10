@@ -11,8 +11,8 @@ type Authorization interface {
 }
 
 type Weather interface {
-	Get(user domain.User, location string) (domain.Weather, error)
-	Save(user domain.User, weather domain.Weather) error
+	Get(userId int, location string) (domain.Weather, error)
+	Save(userId int, weather domain.Weather) error
 }
 
 type Repository struct {
