@@ -6,10 +6,20 @@ import (
 	"net/http"
 )
 
-func (h *Handler) CurrentWeather(c *gin.Context) {
-	//Check in DB if we have response today
-	//If not, call api and save to DB then return
-	//Response to User
+func (h *Handler) GetById(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	weather, err := h.services.Weather.Get(userId, "Kiev")
+
+	fmt.Println(weather)
+
+	c.JSON(http.StatusOK, "Hello there")
+}
+
+func (h *Handler) GetAll(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
 		return

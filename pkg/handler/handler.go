@@ -28,7 +28,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		weather := api.Group("/weather")
 		{
-			weather.GET("/current", h.CurrentWeather)
+			weather.GET("/", h.GetById)
+			weather.GET("/all", h.GetAll)
 		}
 
 		city := api.Group("/city")
