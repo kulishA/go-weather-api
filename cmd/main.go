@@ -6,6 +6,7 @@ import (
 	"github.com/kulishA/go-weather-api/pkg/repository"
 	"github.com/kulishA/go-weather-api/pkg/server"
 	"github.com/kulishA/go-weather-api/pkg/service"
+	"github.com/kulishA/go-weather-api/pkg/weaher_api/api"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 )
@@ -29,7 +30,8 @@ func main() {
 	}
 
 	repos := repository.NewRepository(db)
-	services := service.NewService(repos)
+	weatherApi := api.NewWeatherApi(configs.ApiToken)
+	services := service.NewService(repos, weatherApi)
 	handlers := handler.NewHandler(services)
 
 	srv := new(server.Server)

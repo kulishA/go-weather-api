@@ -8,6 +8,7 @@ import (
 const (
 	userTable    = "users"
 	weatherTable = "weather"
+	citiesTable  = "cities"
 )
 
 type Config struct {

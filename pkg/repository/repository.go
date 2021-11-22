@@ -15,14 +15,22 @@ type Weather interface {
 	Save(userId int, weather domain.Weather) error
 }
 
+type City interface {
+	Get(userId int) ([]domain.City, error)
+	Save(userId int, cityId int) (bool, error)
+	SaveAll([]domain.City) error
+}
+
 type Repository struct {
 	Authorization
 	Weather
+	City
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
 		Weather:       NewWeatherPostgres(db),
+		City:          NewCityPostgres(db),
 	}
 }

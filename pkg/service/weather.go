@@ -6,17 +6,15 @@ import (
 	"github.com/kulishA/go-weather-api/pkg/weaher_api/api"
 )
 
-const apiUrl = "https://api.weatherapi.com/v1/current.json"
-
 type WeatherService struct {
 	repo repository.Weather
 	api  *api.WeatherApi
 }
 
-func NewWeatherService(repo repository.Weather) *WeatherService {
+func NewWeatherService(repo repository.Weather, weatherApi *api.WeatherApi) *WeatherService {
 	return &WeatherService{
 		repo: repo,
-		api:  api.NewWeatherApi(),
+		api:  weatherApi,
 	}
 }
 

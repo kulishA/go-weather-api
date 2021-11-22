@@ -14,6 +14,7 @@ type Config struct {
 	DBPassword string
 	DBName     string
 	DBSSLMode  string
+	ApiToken   string
 }
 
 func NewConfig() *Config {
@@ -33,5 +34,6 @@ func initConfig() *Config {
 		DBPassword: os.Getenv("POSTGRES_PASSWORD"),
 		DBName:     os.Getenv("POSTGRES_DB"),
 		DBSSLMode:  os.Getenv("POSTGRES_SSLMODE"),
+		ApiToken:   os.Getenv("API_TOKEN"),
 	}
 }

@@ -30,6 +30,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		{
 			weather.GET("/current", h.CurrentWeather)
 		}
+
+		city := api.Group("/city")
+		{
+			city.GET("/search", h.Search)
+			city.POST("/", h.Save)
+			city.GET("/", h.GetSaved)
+		}
 	}
 
 	return router

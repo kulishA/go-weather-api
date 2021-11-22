@@ -9,9 +9,7 @@ type WeatherApi struct {
 	api *service.ApiService
 }
 
-func NewWeatherApi() *WeatherApi {
-	//apiToken := os.Getenv("POSTGRES_PASSWORD")
-	apiToken := "5a708e75b13e4239aa271034210311"
+func NewWeatherApi(apiToken string) *WeatherApi {
 	return &WeatherApi{
 		api: service.NewApiService(apiToken),
 	}
