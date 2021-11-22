@@ -5,12 +5,12 @@ import (
 	"net/http"
 )
 
-type searchQuery struct {
+type searchInput struct {
 	City string `form:"city"`
 }
 
 func (h *Handler) Search(c *gin.Context) {
-	var input searchQuery
+	var input searchInput
 
 	if err := c.Bind(&input); err != nil {
 		NewErrorResponse(c, http.StatusBadRequest, err.Error())
@@ -28,8 +28,30 @@ func (h *Handler) Search(c *gin.Context) {
 	})
 }
 
+type saveInput struct {
+	CityId int `json:"city_id"`
+}
+
 func (h *Handler) Save(c *gin.Context) {
-	c.JSON(http.StatusOK, "Save")
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	var input saveInput
+	if err := c.BindJSON(&input); err != nil {
+		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	result, err := h.services.City.Save(userId, input.CityId)
+	if err != nil {
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"data": result,
+	})
 }
 
 func (h *Handler) GetSaved(c *gin.Context) {
