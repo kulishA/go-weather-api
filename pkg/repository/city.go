@@ -15,7 +15,12 @@ func NewCityPostgres(db *sqlx.DB) *CityPostgres {
 }
 
 func (c *CityPostgres) Get(userId int) ([]domain.City, error) {
-	return nil, nil
+	var cities []domain.City
+
+	query := fmt.Sprintf("SELECT DISTINCT c.city_id, c.name, c.region, c.country, c.lat, c.lon, c.url FROM %s c INNER JOIN %s uc on c.city_id = uc.city_id WHERE uc.user_id=$1", citiesTable, usersCitiesTable)
+	err := c.db.Select(&cities, query, userId)
+
+	return cities, err
 }
 
 func (c *CityPostgres) Save(userId int, cityId int) (bool, error) {

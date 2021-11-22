@@ -55,5 +55,18 @@ func (h *Handler) Save(c *gin.Context) {
 }
 
 func (h *Handler) GetSaved(c *gin.Context) {
-	c.JSON(http.StatusOK, "GetSaved")
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	result, err := h.services.City.Get(userId)
+	if err != nil {
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"data": result,
+	})
 }
