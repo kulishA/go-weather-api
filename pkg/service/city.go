@@ -43,7 +43,7 @@ func (s *CityService) Save(userId int, cityId int) (bool, error) {
 	return s.repo.Save(userId, cityId)
 }
 
-func (s *CityService) transformCity(city apiDomain.City) domain.City {
+func (s *CityService) transformCity(city apiDomain.ApiCity) domain.City {
 	newCity := domain.City{
 		CityId:  city.Id,
 		Name:    city.Name,

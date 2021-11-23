@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS weather
 (
     id           serial                                       not null unique,
-    city_id      int references cities (id) on delete cascade not null unique,
+    city_id      int references cities (city_id) on delete cascade not null unique,
     last_updated varchar(255)                                 not null,
     temp_c       float                                        not null,
     temp_f       float                                        not null,
@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS weather
     precip_in    float                                        not null,
     humidity     int                                          not null,
     cloud        int                                          not null,
-    column_16    int                                          not null,
     feelslike_c  float                                        not null,
     feelslike_f  float                                        not null,
     vis_km       float                                        not null,
@@ -24,6 +23,5 @@ CREATE TABLE IF NOT EXISTS weather
     uv           float                                        not null,
     gust_mph     float                                        not null,
     gust_kph     float                                        not null,
-    location_id  int                                          not null
 );
 

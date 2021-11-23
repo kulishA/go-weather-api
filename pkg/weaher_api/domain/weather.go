@@ -1,6 +1,6 @@
 package domain
 
-type Weather struct {
+type ApiWeather struct {
 	Location `json:"location"`
 	Current  `json:"current"`
 }

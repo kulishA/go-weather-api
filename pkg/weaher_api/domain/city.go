@@ -1,6 +1,6 @@
 package domain
 
-type City struct {
+type ApiCity struct {
 	Id      int     `json:"id"`
 	Name    string  `json:"name"`
 	Region  string  `json:"region"`

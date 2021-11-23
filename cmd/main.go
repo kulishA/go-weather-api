@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/kulishA/go-weather-api/pkg/config"
+	"github.com/kulishA/go-weather-api/pkg/cron"
 	"github.com/kulishA/go-weather-api/pkg/handler"
 	"github.com/kulishA/go-weather-api/pkg/repository"
 	"github.com/kulishA/go-weather-api/pkg/server"
@@ -13,6 +14,8 @@ import (
 
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
+
+	//fmt.Println(time.ParseDuration("5m"))
 
 	configs := config.NewConfig()
 
@@ -33,6 +36,9 @@ func main() {
 	weatherApi := api.NewWeatherApi(configs.ApiToken)
 	services := service.NewService(repos, weatherApi)
 	handlers := handler.NewHandler(services)
+	crn := cron.NewCron(services, configs)
+
+	go crn.UpdateWeather()
 
 	srv := new(server.Server)
 	if err := srv.Run(configs.ServerPort, handlers.InitRoutes()); err != nil {

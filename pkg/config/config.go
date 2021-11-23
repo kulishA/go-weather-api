@@ -7,14 +7,15 @@ import (
 )
 
 type Config struct {
-	ServerPort string
-	DBPort     string
-	DBHost     string
-	DBUser     string
-	DBPassword string
-	DBName     string
-	DBSSLMode  string
-	ApiToken   string
+	ServerPort  string
+	DBPort      string
+	DBHost      string
+	DBUser      string
+	DBPassword  string
+	DBName      string
+	DBSSLMode   string
+	ApiToken    string
+	UpdateAfter string
 }
 
 func NewConfig() *Config {
@@ -27,13 +28,14 @@ func initConfig() *Config {
 	}
 
 	return &Config{
-		ServerPort: os.Getenv("SERVER_PORT"),
-		DBPort:     os.Getenv("POSTGRES_PORT"),
-		DBHost:     os.Getenv("POSTGRES_HOST"),
-		DBUser:     os.Getenv("POSTGRES_USER"),
-		DBPassword: os.Getenv("POSTGRES_PASSWORD"),
-		DBName:     os.Getenv("POSTGRES_DB"),
-		DBSSLMode:  os.Getenv("POSTGRES_SSLMODE"),
-		ApiToken:   os.Getenv("API_TOKEN"),
+		ServerPort:  os.Getenv("SERVER_PORT"),
+		DBPort:      os.Getenv("POSTGRES_PORT"),
+		DBHost:      os.Getenv("POSTGRES_HOST"),
+		DBUser:      os.Getenv("POSTGRES_USER"),
+		DBPassword:  os.Getenv("POSTGRES_PASSWORD"),
+		DBName:      os.Getenv("POSTGRES_DB"),
+		DBSSLMode:   os.Getenv("POSTGRES_SSLMODE"),
+		ApiToken:    os.Getenv("API_TOKEN"),
+		UpdateAfter: os.Getenv("UPDATE_AFTER"),
 	}
 }

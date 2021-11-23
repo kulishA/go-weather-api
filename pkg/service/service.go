@@ -13,8 +13,9 @@ type Authorization interface {
 }
 
 type Weather interface {
-	Get(userId int, location string) (domain.Weather, error)
-	Save(userId int, weather domain.Weather) error
+	Get(userId int, cityId int) (domain.Weather, error)
+	GetAll(userId int) ([]domain.Weather, error)
+	GetWeatherFromApi() error
 }
 
 type City interface {
@@ -32,7 +33,7 @@ type Service struct {
 func NewService(repos *repository.Repository, api *api.WeatherApi) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
-		Weather:       NewWeatherService(repos.Weather, api),
+		Weather:       NewWeatherService(repos.Weather, repos.City, api),
 		City:          NewCityService(repos.City, api),
 	}
 }

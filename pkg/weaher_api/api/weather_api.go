@@ -15,10 +15,10 @@ func NewWeatherApi(apiToken string) *WeatherApi {
 	}
 }
 
-func (w *WeatherApi) Current(cityUrl string) (*domain.Weather, error) {
+func (w *WeatherApi) Current(cityUrl string) (*domain.ApiWeather, error) {
 	return w.api.Current(cityUrl)
 }
 
-func (w *WeatherApi) Search(cityName string) (*[]domain.City, error) {
+func (w *WeatherApi) Search(cityName string) (*[]domain.ApiCity, error) {
 	return w.api.Search(cityName)
 }

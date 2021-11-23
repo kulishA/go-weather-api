@@ -23,6 +23,15 @@ func (c *CityPostgres) Get(userId int) ([]domain.City, error) {
 	return cities, err
 }
 
+func (c *CityPostgres) GetAllSaved() ([]domain.City, error) {
+	var cities []domain.City
+	query := fmt.Sprintf("SELECT DISTINCT c.city_id, c.name, c.region, c.country, c.lat, c.lon, c.url FROM %s c INNER JOIN %s uc on c.city_id = uc.city_id", citiesTable, usersCitiesTable)
+
+	err := c.db.Select(&cities, query)
+
+	return cities, err
+}
+
 func (c *CityPostgres) Save(userId int, cityId int) (bool, error) {
 	var id int
 	query := fmt.Sprintf("INSERT INTO %s (user_id, city_id) values ($1, $2) RETURNING id", usersCitiesTable)

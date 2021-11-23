@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/jmoiron/sqlx"
 	"github.com/kulishA/go-weather-api/domain"
+	apiDomain "github.com/kulishA/go-weather-api/pkg/weaher_api/domain"
 )
 
 type Authorization interface {
@@ -11,12 +12,14 @@ type Authorization interface {
 }
 
 type Weather interface {
-	Get(userId int, location string) (domain.Weather, error)
-	Save(userId int, weather domain.Weather) error
+	Get(userId int, cityId int) (domain.Weather, error)
+	GetAll(userId int) ([]domain.Weather, error)
+	SaveOrUpdate(cityId int, weather apiDomain.ApiWeather) error
 }
 
 type City interface {
 	Get(userId int) ([]domain.City, error)
+	GetAllSaved() ([]domain.City, error)
 	Save(userId int, cityId int) (bool, error)
 	SaveAll([]domain.City) error
 }

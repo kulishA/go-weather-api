@@ -24,8 +24,8 @@ func NewWeatherApiService(apiToken string) *WeatherApiService {
 	return &WeatherApiService{apiToken: apiToken}
 }
 
-func (w *WeatherApiService) Current(cityUrl string) (*domain.Weather, error) {
-	var weather domain.Weather
+func (w *WeatherApiService) Current(cityUrl string) (*domain.ApiWeather, error) {
+	var weather domain.ApiWeather
 	url := fmt.Sprintf("%s?%s=%s&%s=%s&aqi=no", apiCurrentUrl, token, w.apiToken, search, cityUrl)
 
 	responseBody, err := w.request(url)
@@ -41,8 +41,8 @@ func (w *WeatherApiService) Current(cityUrl string) (*domain.Weather, error) {
 	return &weather, nil
 }
 
-func (w *WeatherApiService) Search(cityName string) (*[]domain.City, error) {
-	var cities []domain.City
+func (w *WeatherApiService) Search(cityName string) (*[]domain.ApiCity, error) {
+	var cities []domain.ApiCity
 	url := fmt.Sprintf("%s?%s=%s&%s=%s", apiSearchUrl, token, w.apiToken, search, cityName)
 
 	responseBody, err := w.request(url)
